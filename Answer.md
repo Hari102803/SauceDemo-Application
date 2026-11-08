@@ -74,3 +74,85 @@ The AI-powered test case generator converts user stories into test cases in a pr
 ## Summary
 
 The evaluation set uses three automatic checks and one human review check. This combination helps ensure that generated test cases are complete, relevant, non-duplicated, and technically valid before importing them into the test management tool.
+
+# Section B3 – Defect Report
+
+## Defect Details
+
+**Title:** [Sorting] Price (low to high) displays products in incorrect price order
+
+- **Application version:** 4.2.0
+- **Browser:** Google Chrome
+- **Test area:** Section A – Product Sorting
+- **Test environment:** Chrome browser
+- **Severity:** Major (S2)
+
+## Precondition
+
+The user is logged in and the product listing page is displayed.
+
+## Steps to Reproduce
+
+1. Launch the application in Google Chrome.
+2. Log in using a Visual_user account.
+3. Navigate to the product listing page.
+4. Select **Price (low to high)** from the sorting dropdown.
+5. Observe the order of the product prices displayed.
+
+## Expected Result
+
+When **Price (low to high)** is selected, all products should be displayed in
+ascending order by price. The expected order is:
+
+```text
+$4.15 -> $23.60 -> $39.05 -> $42.28 -> $48.46 -> $72.91
+```
+
+The entire product list should remain in ascending price order without sorting
+inconsistencies.
+
+## Actual Result
+
+The products are reported to appear in the following order after selecting
+**Price (low to high)**:
+
+```text
+$72.91 -> $42.28 -> $48.46 -> $39.05 -> $23.60 -> $4.15
+```
+
+The highest-priced product appears before the lowest-priced product, so the
+displayed order is not ascending. The issue is reported as reproducible in
+every test run.
+
+## Severity Reason
+
+The sorting problem makes it harder for users to compare products and find
+lower-priced options. Users can still browse and purchase products using other
+available options, so this is a major (S2) issue rather than a critical blocker.
+
+## Reference
+
+[Jam recording](https://jam.dev/c/cb7cabdd-bb28-41d4-8565-977e786e13c6)
+
+# B4 Message to the client
+
+I understand that we are targeting a Friday release. However, our latest
+testing has identified two concerns.
+
+First, the product sorting issue (B3) is still present, showing products in
+the wrong price order. Second, the checkout test fails approximately 1 out of
+10 times, even though it passes when repeated. This makes the checkout
+reliability uncertain.
+
+My recommendation is to avoid a full release on Friday until these issues are
+investigated and verified.
+
+As an alternative, we could release the unaffected features on Friday while
+keeping the affected changes on hold. Meanwhile, the team can investigate the
+checkout issue and fix the sorting defect. We can then complete another round
+of testing before releasing the remaining changes.
+
+This approach will help reduce customer impact while keeping the release
+progress on track.
+
+Thanks!

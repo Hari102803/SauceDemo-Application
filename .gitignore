@@ -6,3 +6,6 @@ playwright/.cache/
 .env
 screenshots/*.png
 results.xml
+
+# Gemini logs
+.gemini/

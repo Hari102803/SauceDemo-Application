@@ -1,27 +1,14 @@
 
 import { Locator, Page } from '@playwright/test';
+import { LoginLocators } from '../locators/LoginLocators';
 
 export class LoginPage {
   readonly page: Page;
-
-  private readonly logo: Locator;
-  private readonly usernameInput: Locator;
-  private readonly passwordInput: Locator;
-  private readonly loginButton: Locator;
-  private readonly errorMessage: Locator;
-  private readonly errorCloseButton: Locator;
+  private readonly locators: LoginLocators;
 
   constructor(page: Page) {
     this.page = page;
-
-    this.logo = page.locator('.login_logo');
-    this.usernameInput = page.locator('[data-test="username"]');
-    this.passwordInput = page.locator('[data-test="password"]');
-    this.loginButton = page.locator('[data-test="login-button"]');
-    this.errorMessage = page.locator('[data-test="error"]');
-    this.errorCloseButton = page.locator(
-      '[data-test="error"] .error-button'
-    );
+    this.locators = new LoginLocators(page);
   }
 
   // Navigate to login page
@@ -31,17 +18,17 @@ export class LoginPage {
 
   // Enter username
   async enterUsername(username: string): Promise<void> {
-    await this.usernameInput.fill(username);
+    await this.locators.usernameInput.fill(username);
   }
 
   // Enter password
   async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.fill(password);
+    await this.locators.passwordInput.fill(password);
   }
 
   // Click login button
   async clickLogin(): Promise<void> {
-    await this.loginButton.click();
+    await this.locators.loginButton.click();
   }
 
   // Complete login
@@ -53,73 +40,73 @@ export class LoginPage {
 
   // Check logo visibility
   async isLogoVisible(): Promise<boolean> {
-    return this.logo.isVisible();
+    return this.locators.logo.isVisible();
   }
 
   // Check username visibility and editability
   async isUsernameInputVisible(): Promise<boolean> {
     return (
-      await this.usernameInput.isVisible() &&
-      await this.usernameInput.isEditable()
+      await this.locators.usernameInput.isVisible() &&
+      await this.locators.usernameInput.isEditable()
     );
   }
 
   // Check password visibility and editability
   async isPasswordInputVisible(): Promise<boolean> {
     return (
-      await this.passwordInput.isVisible() &&
-      await this.passwordInput.isEditable()
+      await this.locators.passwordInput.isVisible() &&
+      await this.locators.passwordInput.isEditable()
     );
   }
 
   // Check login button visibility and enabled state
   async isLoginButtonVisible(): Promise<boolean> {
     return (
-      await this.loginButton.isVisible() &&
-      await this.loginButton.isEnabled()
+      await this.locators.loginButton.isVisible() &&
+      await this.locators.loginButton.isEnabled()
     );
   }
 
   // Get password input type
   async getPasswordInputType(): Promise<string | null> {
-    return this.passwordInput.getAttribute('type');
+    return this.locators.passwordInput.getAttribute('type');
   }
 
   // Get error message
   async getErrorMessageText(): Promise<string> {
     return (
-      (await this.errorMessage.textContent())?.trim() || ''
+      (await this.locators.errorMessage.textContent())?.trim() || ''
     );
   }
 
   // Check error visibility
   async isErrorMessageVisible(): Promise<boolean> {
-    return this.errorMessage.isVisible();
+    return this.locators.errorMessage.isVisible();
   }
 
   // Close error message
   async closeErrorMessage(): Promise<void> {
-    await this.errorCloseButton.click();
+    await this.locators.errorCloseButton.click();
   }
 
   // Getters for Playwright assertions
   get errorLocator(): Locator {
-    return this.errorMessage;
+    return this.locators.errorMessage;
   }
 
   get logoLocator(): Locator {
-    return this.logo;
+    return this.locators.logo;
   }
 
   get usernameLocator(): Locator {
-    return this.usernameInput;
+    return this.locators.usernameInput;
   }
 
   get passwordLocator(): Locator {
-    return this.passwordInput;
+    return this.locators.passwordInput;
   }
 
   get loginButtonLocator(): Locator {
-    return this.loginButton;
+    return this.locators.loginButton;
   }
 }
